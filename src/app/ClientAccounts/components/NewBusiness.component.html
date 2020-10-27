@@ -1,0 +1,77 @@
+
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Create New Business</h1>
+    </div>
+
+    <form name="form" fxLayout="column" (ngSubmit)="onSubmit()"  #f="ngForm">
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <span matPrefix><i class="fa fa-user fa-fw"></i></span>
+        <input matInput [(ngModel)]="business.name" required [maxlength]="maxLength" name="name" #name="ngModel" autocomplete="no">
+        <mat-error *ngIf="name.errors?.required">Please provide the business name </mat-error>
+      </mat-form-field>
+      
+        <mat-form-field >
+          <mat-label>Email</mat-label>
+          <span matPrefix><i class="fa fa-envelope fa-fw"></i></span>
+          <input matInput [(ngModel)]="business.email" required [maxlength]="maxLength" name="email" placeholder="Ex. pat@example.com" #email="ngModel"
+           autocomplete="no" [pattern]="emailPattern" >
+          <mat-error *ngIf="email.errors?.required">Please provide an email address </mat-error>
+          <mat-error *ngIf="email.errors?.pattern">Invalid email address</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <span matPrefix><i class="fa fa-lock fa-fw"></i></span>
+            <input type="password" matInput [(ngModel)]="business.password" required [minlength]="passMinLength" [maxlength]="maxLength" name="password" 
+            placeholder="Must be at least {{passMinLength}} characters" #password="ngModel">
+            <mat-error *ngIf="password.errors?.required">Please provde password </mat-error>
+            <mat-error *ngIf="password.errors?.minlength">Password must be at least {{passMinLength}} characters long </mat-error>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+            <mat-form-field fxFlex="50%" >
+                <mat-label>Country</mat-label>
+                <span matPrefix><i class="fa fa-globe fa-fw"></i></span>
+                <input type="text" placeholder="Select country name" matInput [matAutocomplete]="auto" [(ngModel)]="business.country"
+                #country="ngModel" name="country" autocomplete="no">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let country of filteredOptions | async" [value]="country">
+                    {{country}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="country.errors?.invalidCountry">Please select a country from the list </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50%">
+                <mat-label>Phone</mat-label>
+                <span matPrefix><i class="fa fa-phone fa-fw"></i></span>
+                <input matInput [(ngModel)]="business.phone" [maxlength]="maxLength" name="phone" placeholder="Ex. 052-1111111" autocomplete="no">
+            </mat-form-field>
+        </div>
+        
+        <mat-form-field >
+            <mat-label>Address</mat-label>
+            <span matPrefix><i class="fa fa-map-marker fa-fw"></i></span>
+            <input matInput [(ngModel)]="business.address" [maxlength]="maxLength" name="address" placeholder="Ex. 999 Bird St. NY" autocomplete="no">
+        </mat-form-field>
+
+        <div>
+            <button type="submit" class="btn btn-primary btn-icon-split">
+                <span class="icon text-white-50">
+                  <i class="fa fa-paper-plane"></i>
+                </span>
+                <span class="text">CREATE ACCOUNT</span>
+              </button>
+        </div>
+      </form>
+      <br>
+
+      <!--Spinner-->
+      <ngx-spinner [fullScreen]="true" size="large" type="ball-clip-rotate">
+        <p class="loading">Updating server...</p>
+      </ngx-spinner>
+</div>

@@ -1,0 +1,54 @@
+
+<div class="container-fluid" fxLayout="column" fxLayoutGap="16px">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Client List</h1>
+
+      <a class="btn btn-info btn-icon-split" routerLink="/new-client-account">
+        <span class="icon text-white-50">
+          <i class="fa fa-plus"></i>
+        </span>
+        <span class="text">NEW CLIENT ACCOUNT</span>
+      </a>
+    </div>
+
+    <!--Sort-->
+    <div fxLayout="row">
+      <div class="align-bottom" fxFlex="30%">
+        <mat-form-field  >
+            <mat-label>Sort By</mat-label>
+            <mat-select [(ngModel)]="sortBy">
+              <mat-option (click)="onSort()" *ngFor="let item of sortOptions | keyvalue" [value]="item.value">{{item.key}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        <button [hidden]="sortOrder === 'asc'" class="center" mat-icon-button (click)="onSortOrder('asc')">
+          <i class="fa fa-arrow-up"></i>
+        </button>
+        <button [hidden]="sortOrder === 'desc'" class="center" mat-icon-button (click)="onSortOrder('desc')">
+          <i class="fa fa-arrow-down"></i>
+        </button>
+      </div>
+      
+
+      <mat-form-field>
+        <mat-label>Search</mat-label>
+        <span matPrefix><i class="fa fa-search fa-fw"></i></span>
+        <input matInput type="text" #searchField name="searchStr" [(ngModel)]="searchStr">
+      </mat-form-field>
+    </div>
+    
+    <!--Businesses-->
+    <table class="table striped" fxFlex="50%">
+      <tbody>
+        <tr *ngFor="let bus of businesses" app-business-item [business]="bus" (deleteEvent)="onDelete($event)"></tr>
+      </tbody>
+    </table>
+
+    <p [hidden]="totalBusinesses > 0 || searchStr === ''">Search yielded no results</p>
+    <p [hidden]="totalBusinesses > 0 || searchStr !== ''">Seems like you don't have any accounts yet... consider adding a few!</p>
+   
+    <!--Paging-->
+    <mat-paginator [hidden]="totalBusinesses === 0" [length]="totalBusinesses" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)"></mat-paginator>
+
+</div>

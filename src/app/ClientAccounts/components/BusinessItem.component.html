@@ -1,0 +1,23 @@
+<td fxFlex="10%" class="center">
+  <ngx-avatar [name]="business.name" [round]="true"></ngx-avatar>
+</td>
+<td fxFlex="50%" >
+  <h5>{{business.name}}</h5>
+  <span>
+    <i class="fa fa-envelope"></i>  {{business.email | email}}
+     <p>Created at {{business.created_at}}</p> 
+  </span>
+</td>
+<td fxFlex="20%" class="center">
+  {{business.plan | uppercase}}
+</td>
+<td fxFlex="20%" class="center">
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button (click)="remove()" mat-menu-item>
+      <i class="fa fa-trash fa-fw"></i> Remove
+    </button>
+  </mat-menu>
+</td>
